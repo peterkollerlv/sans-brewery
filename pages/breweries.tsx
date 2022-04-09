@@ -21,6 +21,7 @@ const BreweriesPage: NextPage<BreweriesPageProps> = ({ ...props }) => {
     const { type: actionType, payload } = action;
     switch (actionType) {
       case BreweriesStateActionType.SET_ALL:
+        state.breweries = [...payload.breweries];
         return payload;
       default:
         return payload;
@@ -29,12 +30,14 @@ const BreweriesPage: NextPage<BreweriesPageProps> = ({ ...props }) => {
 
   const [state, dispatch] = React.useReducer(breweriesReducer, initialState);
 
-/*   React.useEffect(() => {
+  React.useEffect(() => {
     dispatch({
       type: BreweriesStateActionType.SET_ALL,
       payload: { breweries: props.breweries },
     });
-  }, []); */
+
+    console.log("useEffect: dispatch");
+  }, []);
 
   return (
     <div>
@@ -51,8 +54,8 @@ const BreweriesPage: NextPage<BreweriesPageProps> = ({ ...props }) => {
 export default BreweriesPage;
 
 export const getServerSideProps = async (context: NextPageContext) => {
-  const breweries: Brewery[] = [];
-  breweries.push(await fetchBreweries());
+  const breweries: Brewery[] = await fetchBreweries();
+  breweries.push(...breweries);
   console.log(`breweries: ${JSON.stringify(breweries)}`);
   return {
     props: { breweries: breweries },
