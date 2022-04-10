@@ -1,6 +1,6 @@
 import type { NextPage, NextPageContext } from "next";
 import Head from "next/head";
-import { HomePageProps } from "../interface/HomePageProps";
+import { HomePageProps } from "../interface/props/HomePageProps";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage<HomePageProps> = ({ ...props }) => {
