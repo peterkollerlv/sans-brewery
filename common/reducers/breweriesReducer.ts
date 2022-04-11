@@ -9,7 +9,18 @@ export const breweriesReducer = (
   const { type: actionType, payload } = action;
   switch (actionType) {
     case BreweriesStateActionType.SET_ALL:
-      return { ...state, breweries: payload.breweries };
+      return {
+        ...state,
+        breweries: payload.breweries,
+        pages: payload.pages,
+        currentPage: payload.currentPage,
+      };
+    case BreweriesStateActionType.SET_CURRENT_PAGE:
+      console.log(`reducer setCurrentPage: ${payload.currentPage}`);
+      return {
+        ...state,
+        currentPage: payload.currentPage,
+      };
     default:
       return state;
   }
