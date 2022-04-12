@@ -18,3 +18,12 @@
   flex-direction: column;
   align-items: center;
 }
+
+.tableHeader th {
+  background-color: #f8f88e;
+}
+
+.slider > span > span {
+  color: black;
+  background-color: #f6f5cc;
+}

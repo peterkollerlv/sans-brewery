@@ -19,6 +19,7 @@ import {
   Box,
   Divider,
   Slider,
+  Link,
 } from "@mui/material";
 import { createBreweryDataRow } from "../common/createBreweryDataRow";
 import styles from "../styles/BreweriesPage.module.css";
@@ -95,8 +96,17 @@ const BreweriesPage = ({ ...props }) => {
     <Container className={styles.container}>
       <Stack direction="column" spacing="4">
         <TableContainer component={Paper} className={styles.tableContainer}>
-          <Table aria-label="brewery info table">
+          <Table
+            stickyHeader
+            aria-label="brewery info table"
+            className={styles.tableHeader}
+          >
             <TableHead>
+              <TableRow>
+                <TableCell align="center" colSpan={2}>
+                  <Typography variant="h3">Sans Brewery Catalog</Typography>
+                </TableCell>
+              </TableRow>
               <TableRow>
                 <TableCell align="left" component="th" scope="row">
                   <Typography variant="h6">Brewery Name</Typography>
@@ -123,7 +133,11 @@ const BreweriesPage = ({ ...props }) => {
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell align="left">
-                        <Typography variant="body2">{rowData.name}</Typography>
+                        <Link href={`/brewery/${rowData.id}`}>
+                          <Typography variant="body2">
+                            {rowData.name}
+                          </Typography>
+                        </Link>
                       </TableCell>
 
                       <TableCell align="left">
@@ -149,6 +163,7 @@ const BreweriesPage = ({ ...props }) => {
             min={1}
             max={breweryDataContext.breweries.length}
             onChange={handleEntriesPerPageChange}
+            className={styles.slider}
           />
           <Divider />
           <Pagination
