@@ -146,6 +146,7 @@ const BreweriesPage = ({ ...props }) => {
             valueLabelDisplay="on"
             value={breweryDataContext.entriesPerPage}
             valueLabelFormat={valuetext}
+            min={1}
             max={breweryDataContext.breweries.length}
             onChange={handleEntriesPerPageChange}
           />
@@ -175,7 +176,7 @@ export const getServerSideProps = async () => {
       props: {
         breweries: breweries ?? [],
         appDefaults: {
-          entriesPerPageLimit: 8,
+          entriesPerPageLimit: 10,
         },
       },
     };
