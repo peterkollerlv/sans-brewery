@@ -7,6 +7,7 @@
 
 .tableContainer {
   background-color: #f8f88e;
+  height: 80vh;
 }
 
 .pagination {
@@ -14,5 +15,6 @@
   margin-top: 1em;
   background-color: #f8f88e;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }

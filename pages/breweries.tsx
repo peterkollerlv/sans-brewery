@@ -1,5 +1,4 @@
 import React from "react";
-import { NextPageContext } from "next";
 import { Brewery } from "../schema/Brewery";
 import { fetchBreweries } from "../common/BreweryDAL";
 import { BreweriesStateActionType } from "../interface/state/BreweriesStateActionType";
@@ -19,21 +18,28 @@ import {
   Container,
   Box,
   Divider,
+  Slider,
 } from "@mui/material";
 import { createBreweryDataRow } from "../common/createBreweryDataRow";
 import styles from "../styles/BreweriesPage.module.css";
 import { calculatePageSize } from "../common/calculatePageSize";
+import { APP_DEFAULT_ENTRIES_PER_PAGE_LIMIT } from "../common/AppDefaults";
 
 const BreweriesPage = ({ ...props }) => {
+  if (props.appDefaults) {
+  }
   const [breweryDataContext, dispatch] = React.useReducer(breweriesReducer, {
     breweries: [],
     pages: 0,
     currentPage: 0,
-    pageSize: 10,
+    entriesPerPage: props.appDefaults
+      ? props.appDefaults.entriesPerPageLimit
+      : APP_DEFAULT_ENTRIES_PER_PAGE_LIMIT,
   });
 
   React.useEffect(() => {
     const initialisePageData = async () => {
+      const currentPageDefaultValue = props.breweries ? 1 : 0;
       dispatch({
         type: BreweriesStateActionType.SET_ALL,
         payload: {
@@ -41,20 +47,34 @@ const BreweriesPage = ({ ...props }) => {
           breweries: props.breweries,
           pages: calculatePageSize(
             props.breweries.length,
-            breweryDataContext.pageSize
+            breweryDataContext.entriesPerPage
           ),
-          currentPage: props.breweries ? 1 : 0,
+          currentPage: currentPageDefaultValue,
         },
       });
 
-      setCurrentPage(props.breweries ? 1 : 0);
+      setCurrentPage(currentPageDefaultValue);
     };
     initialisePageData();
   }, []);
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    // console.log(`handleChange value: ${value}`);
     setCurrentPage(value);
+  };
+
+  const handleEntriesPerPageChange = (
+    event: Event,
+    value: number | Array<number>,
+    activeThumb: number
+  ) => {
+    console.log(`value: ${value}, activeThumb: ${activeThumb}`);
+    dispatch({
+      type: BreweriesStateActionType.SET_ENTRIES_PER_PAGE_LIMIT,
+      payload: {
+        ...breweryDataContext,
+        entriesPerPage: value as number,
+      },
+    });
   };
 
   const setCurrentPage = (page: number) => {
@@ -65,6 +85,10 @@ const BreweriesPage = ({ ...props }) => {
         currentPage: page,
       },
     });
+  };
+
+  const valuetext = (value: number) => {
+    return `${value} / page`;
   };
 
   return (
@@ -86,10 +110,10 @@ const BreweriesPage = ({ ...props }) => {
               {breweryDataContext.breweries
                 .slice(
                   (breweryDataContext.currentPage - 1) *
-                    breweryDataContext.pageSize,
-                  breweryDataContext.currentPage * breweryDataContext.pageSize
+                    breweryDataContext.entriesPerPage,
+                  breweryDataContext.currentPage *
+                    breweryDataContext.entriesPerPage
                 )
-                //.slice(17, 19)
                 .map((brewery) => {
                   const rowData = createBreweryDataRow(brewery);
 
@@ -115,6 +139,17 @@ const BreweriesPage = ({ ...props }) => {
         </TableContainer>
         <Divider />
         <Paper className={styles.pagination}>
+          <Slider
+            sx={{ width: 200, marginTop: "1.2em" }}
+            defaultValue={breweryDataContext.entriesPerPage}
+            aria-label="Entries Per Page"
+            valueLabelDisplay="on"
+            value={breweryDataContext.entriesPerPage}
+            valueLabelFormat={valuetext}
+            max={breweryDataContext.breweries.length}
+            onChange={handleEntriesPerPageChange}
+          />
+          <Divider />
           <Pagination
             count={breweryDataContext.pages}
             onChange={handleChange}
@@ -137,7 +172,12 @@ export const getServerSideProps = async () => {
     const breweries: Brewery[] = await fetchBreweries();
     console.log(`breweries length: ${breweries ? breweries.length : 0}`);
     return {
-      props: { breweries: breweries ?? [] },
+      props: {
+        breweries: breweries ?? [],
+        appDefaults: {
+          entriesPerPageLimit: 8,
+        },
+      },
     };
   } catch (error) {
     console.error(error);

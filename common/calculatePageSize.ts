@@ -1,8 +1,8 @@
 export const calculatePageSize = (itemCount: number, pageSize: number) => {
-  const fullPagesCount = itemCount / pageSize;
+  const fullPagesCount = Math.round(itemCount / pageSize);
   console.log(`fullPagesCount: ${fullPagesCount}`);
 
-  const result = itemCount % pageSize > 0 ? fullPagesCount + 1 : fullPagesCount;
+  const result = fullPagesCount;
   console.log(`$result ${result}`);
   return result;
 };

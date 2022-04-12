@@ -4,5 +4,5 @@ export interface BreweriesState {
   breweries: Brewery[];
   pages: number;
   currentPage: number;
-  pageSize: number;
+  entriesPerPage: number;
 }
