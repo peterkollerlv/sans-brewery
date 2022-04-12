@@ -95,6 +95,7 @@ const BreweriesPage = ({ ...props }) => {
   return (
     <Container className={styles.container}>
       <Stack direction="column" spacing="4">
+        <Typography variant="h3">Sans Brewery Catalog</Typography>
         <TableContainer component={Paper} className={styles.tableContainer}>
           <Table
             stickyHeader
@@ -102,11 +103,6 @@ const BreweriesPage = ({ ...props }) => {
             className={styles.tableHeader}
           >
             <TableHead>
-              <TableRow>
-                <TableCell align="center" colSpan={2}>
-                  <Typography variant="h3">Sans Brewery Catalog</Typography>
-                </TableCell>
-              </TableRow>
               <TableRow>
                 <TableCell align="left" component="th" scope="row">
                   <Typography variant="h6">Brewery Name</Typography>

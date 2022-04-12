@@ -1,13 +1,6 @@
-.container {
-  padding: 2em;
-  padding-top: 4em;
-  background-color: #f6f5cc;
-  min-height: 100vh;
-}
-
 .tableContainer {
   background-color: #f8f88e;
-  height: 80vh;
+  height: 60vh;
 }
 
 .pagination {

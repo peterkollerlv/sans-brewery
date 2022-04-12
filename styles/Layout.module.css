@@ -1,0 +1,17 @@
+.container {
+  margin: 0;
+  padding: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+.main {
+  padding: 2em;
+  background-color: #f6f5cc;
+  min-height: calc(100vh - 2em);
+}
+
+.footer {
+  height: 2em;
+  min-width: 100vw;
+}

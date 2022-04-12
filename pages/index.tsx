@@ -1,25 +1,17 @@
+import { Box, Typography } from "@mui/material";
 import type { NextPage, NextPageContext } from "next";
-import Head from "next/head";
 import { HomePageProps } from "../interface/props/HomePageProps";
-import styles from "../styles/Home.module.css";
 
 const Home: NextPage<HomePageProps> = ({ ...props }) => {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Sans Brewery Sans Brewery Explorer</title>
-        <meta name="description" content="powered by electricityp" />
-        <link rel="icon" href="/favicon.ico" />
-        <span>{props.messageOfTheDay}</span>
-      </Head>
-
-      <main className={styles.main}>
+    <Box>
+      <Typography variant="h2">
         Welcome to Sans Brewery Explorer <br />
+      </Typography>
+      <Typography variant="button">
         <a href="/breweries">Explore Breweries</a>
-      </main>
-
-      <footer className={styles.footer}>brew footer. 2022</footer>
-    </div>
+      </Typography>
+    </Box>
   );
 };
 
