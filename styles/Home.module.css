@@ -1,0 +1,14 @@
+.exploreAction {
+  margin-top: 4em;
+  margin-right: auto;
+  margin-left: auto;
+  width: 50vw;
+  text-align: center;
+  color: var(--primary-color);
+  border: 3px solid var(--primary-color);
+  border-radius: 2em;
+}
+
+.exploreAction span {
+  font-size: 2em;
+}

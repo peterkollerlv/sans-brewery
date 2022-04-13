@@ -1,5 +1,5 @@
 export type Brewery = {
-  id: number;
+  id: string;
   name: string;
   brewery_type: string;
   street?: string;

@@ -8,7 +8,7 @@
 .main {
   padding: 2em;
   background-color: var(--secondary-background-color);
-  min-height: calc(100vh - 2em);
+  min-height: calc(100vh - 6em);
 }
 
 .footer {
@@ -18,4 +18,8 @@
   color: var(--primary-color);
   padding: 0 2em;
   text-align: right;
+}
+
+.autoComplete {
+  
 }

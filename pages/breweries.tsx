@@ -3,7 +3,6 @@ import { Brewery } from "../schema/Brewery";
 import { fetchBreweries } from "../common/BreweryDAL";
 import { BreweriesStateActionType } from "../interface/state/BreweriesStateActionType";
 import { breweriesReducer } from "../common/reducers/breweriesReducer";
-
 import {
   Stack,
   Pagination,
@@ -16,7 +15,6 @@ import {
   TableRow,
   Typography,
   Container,
-  Box,
   Divider,
   Slider,
   Link,
@@ -97,86 +95,90 @@ const BreweriesPage = ({ ...props }) => {
       <Stack direction="column" spacing="4">
         <Typography
           sx={{ color: "var(--primary-color)" }}
-          variant="h3"
+          variant="h4"
           className={styles.title}
         >
           Sans Brewery Catalog
         </Typography>
-        <TableContainer component={Paper} className={styles.tableContainer}>
-          <Table
-            stickyHeader
-            aria-label="brewery info table"
-            className={styles.breweriesTable}
-          >
-            <TableHead>
-              <TableRow>
-                <TableCell align="left" component="th" scope="row">
-                  <Typography variant="h6">Brewery Name</Typography>
-                </TableCell>
-                <TableCell align="left" component="th" scope="row">
-                  <Typography variant="h6">Brewery Type</Typography>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {breweryDataContext.breweries
-                .slice(
-                  (breweryDataContext.currentPage - 1) *
-                    breweryDataContext.entriesPerPage,
-                  breweryDataContext.currentPage *
-                    breweryDataContext.entriesPerPage
-                )
-                .map((brewery) => {
-                  const rowData = createBreweryDataRow(brewery);
+        <Paper elevation={6}>
+          <TableContainer className={styles.tableContainer}>
+            <Table
+              stickyHeader
+              aria-label="brewery info table"
+              className={styles.breweriesTable}
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell align="left" component="th" scope="row">
+                    <Typography variant="h6">Brewery Name</Typography>
+                  </TableCell>
+                  <TableCell align="left" component="th" scope="row">
+                    <Typography variant="h6">Brewery Type</Typography>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {breweryDataContext.breweries
+                  .slice(
+                    (breweryDataContext.currentPage - 1) *
+                      breweryDataContext.entriesPerPage,
+                    breweryDataContext.currentPage *
+                      breweryDataContext.entriesPerPage
+                  )
+                  .map((brewery) => {
+                    const rowData = createBreweryDataRow(brewery);
 
-                  return (
-                    <TableRow
-                      key={rowData.id}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell align="left">
-                        <Link href={`/brewery/${rowData.id}`}>
+                    return (
+                      <TableRow
+                        key={rowData.id}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell align="left">
+                          <Link href={`/brewery/${rowData.id}`}>
+                            <Typography variant="body2">
+                              {rowData.name}
+                            </Typography>
+                          </Link>
+                        </TableCell>
+
+                        <TableCell align="left">
                           <Typography variant="body2">
-                            {rowData.name}
+                            {rowData.brewery_type}
                           </Typography>
-                        </Link>
-                      </TableCell>
-
-                      <TableCell align="left">
-                        <Typography variant="body2">
-                          {rowData.brewery_type}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Divider />
-        <Paper className={styles.pagination}>
-          <Slider
-            sx={{ width: 200, marginTop: "1.2em" }}
-            defaultValue={breweryDataContext.entriesPerPage}
-            aria-label="Entries Per Page"
-            valueLabelDisplay="on"
-            value={breweryDataContext.entriesPerPage}
-            valueLabelFormat={valuetext}
-            min={1}
-            max={breweryDataContext.breweries.length}
-            onChange={handleEntriesPerPageChange}
-            className={styles.slider}
-          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
           <Divider />
-          <Pagination
-            count={breweryDataContext.pages}
-            onChange={handleChange}
-            color="primary"
-            showFirstButton
-            showLastButton
-            page={breweryDataContext.currentPage}
-            disabled={breweryDataContext.breweries.length < 1}
-          />
+          <div className={styles.pagination}>
+            <Slider
+              sx={{ width: 200, marginTop: "1.2em" }}
+              defaultValue={breweryDataContext.entriesPerPage}
+              aria-label="Entries Per Page"
+              valueLabelDisplay="on"
+              value={breweryDataContext.entriesPerPage}
+              valueLabelFormat={valuetext}
+              min={1}
+              max={breweryDataContext.breweries.length}
+              onChange={handleEntriesPerPageChange}
+              className={styles.slider}
+            />
+            <Divider />
+            <Pagination
+              count={breweryDataContext.pages}
+              onChange={handleChange}
+              color="primary"
+              showFirstButton
+              showLastButton
+              page={breweryDataContext.currentPage}
+              disabled={breweryDataContext.breweries.length < 1}
+            />
+          </div>
         </Paper>
       </Stack>
     </Container>
