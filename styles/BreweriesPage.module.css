@@ -1,22 +1,43 @@
 .tableContainer {
-  background-color: #f8f88e;
+  background-color: var(--primary-background-color);
   height: 60vh;
 }
 
 .pagination {
   padding: 1em;
   margin-top: 1em;
-  background-color: #f8f88e;
+  background-color: var(--primary-background-color);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.tableHeader th {
-  background-color: #f8f88e;
+.breweriesTable th {
+  color: var(--primary-color);
+  background-color: var(--primary-background-color);
+}
+
+.breweriesTable td {
+  color: var(--primary-color);
+}
+
+.breweriesTable td a {
+  color: var(--primary-color);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.breweriesTable td a:link,
+.breweriesTable td a:visited {
+  color: var(--primary-color);
+}
+
+.breweriesTable td a:link:active,
+.breweriesTable td a:visited:active {
+  color: var(--primary-color);
 }
 
 .slider > span > span {
-  color: black;
-  background-color: #f6f5cc;
+  color: var(--primary-color);
+  background-color: var(--primary-background-color);
 }

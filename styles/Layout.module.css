@@ -7,11 +7,15 @@
 
 .main {
   padding: 2em;
-  background-color: #f6f5cc;
+  background-color: var(--secondary-background-color);
   min-height: calc(100vh - 2em);
 }
 
 .footer {
   height: 2em;
-  min-width: 100vw;
+  min-width: 100%;
+  background-color: var(--secondary-background-color);
+  color: var(--primary-color);
+  padding: 0 2em;
+  text-align: right;
 }

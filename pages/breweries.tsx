@@ -95,12 +95,18 @@ const BreweriesPage = ({ ...props }) => {
   return (
     <Container className={styles.container}>
       <Stack direction="column" spacing="4">
-        <Typography variant="h3">Sans Brewery Catalog</Typography>
+        <Typography
+          sx={{ color: "var(--primary-color)" }}
+          variant="h3"
+          className={styles.title}
+        >
+          Sans Brewery Catalog
+        </Typography>
         <TableContainer component={Paper} className={styles.tableContainer}>
           <Table
             stickyHeader
             aria-label="brewery info table"
-            className={styles.tableHeader}
+            className={styles.breweriesTable}
           >
             <TableHead>
               <TableRow>

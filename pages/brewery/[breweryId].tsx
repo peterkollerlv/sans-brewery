@@ -7,48 +7,99 @@ import {
   CardContent,
   Typography,
   Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
 } from "@mui/material";
+import ArrowBackIosOutlinedIcon from "@mui/icons-material/ArrowBackIosOutlined";
+import styles from "../../styles/Brewery.module.css";
+import { BreweryDetailRow } from "../../common/BreweryDetailRow";
 
 const Brewery = ({ ...props }) => {
   const breweryData: Brewery = props.brewery ?? {};
   return (
-    <>
-      <Card sx={{ minWidth: 275 }}>
+    <div className={styles.container}>
+      <Card className={styles.detailCard}>
+        <div className={styles.backButton}>
+          <a href="/breweries">
+            <ArrowBackIosOutlinedIcon />
+          </a>
+        </div>
         <CardContent>
           <Typography
-            sx={{ fontSize: "1.5rem" }}
-            color="text.secondary"
+            sx={{ fontSize: "1.5rem", color: "var(--primary-color)" }}
             gutterBottom
           >
             {breweryData.name}
           </Typography>
-          <Typography variant="h5" component="div"></Typography>
-          <Typography sx={{ mb: 1.5, fontSize: "1rem" }} color="text.secondary">
-            {`${breweryData.country}, ${breweryData.brewery_type}`}
-          </Typography>
-          <Grid container spacing={2}>
-            <Grid item>
-              <Typography variant="body2">
-                state: {breweryData.county_province ?? "n/a"}
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="body2">city: {breweryData.city}</Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="body2">
-                phone: {breweryData.phone ?? "n/a"}
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="body2">
-                phone: {breweryData.phone ?? "n/a"}
-              </Typography>
-            </Grid>
-          </Grid>
+
+          <TableContainer component={Paper} className={styles.detailsTable}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell colSpan={2}>
+                    <Typography
+                      sx={{
+                        mb: 1.5,
+                        fontSize: "1rem",
+                        color: "var(--primary-color)",
+                      }}
+                    >
+                      {`${breweryData.country}, ${
+                        breweryData.county_province
+                          ? breweryData.state + ", "
+                          : ""
+                      } Brewery Type: ${breweryData.brewery_type}`}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <BreweryDetailRow
+                  entryKey={"city"}
+                  entryValue={breweryData.city}
+                />
+                <BreweryDetailRow
+                  entryKey={"street"}
+                  entryValue={breweryData.street}
+                />
+                <BreweryDetailRow
+                  entryKey={"address 2"}
+                  entryValue={breweryData.address_2}
+                />
+                <BreweryDetailRow
+                  entryKey={"address 3"}
+                  entryValue={breweryData.address_3}
+                />
+                <BreweryDetailRow
+                  entryKey={"zip"}
+                  entryValue={breweryData.postal_code}
+                />
+                {breweryData.longitude && breweryData.latitude ? (
+                  <BreweryDetailRow
+                    entryKey={"coordinates"}
+                    entryValue={`Lng: ${breweryData.longitude}, Lat: ${breweryData.latitude}`}
+                  />
+                ) : null}
+                <BreweryDetailRow
+                  entryKey={"phone"}
+                  entryValue={breweryData.phone?.toString()}
+                />
+                <BreweryDetailRow
+                  entryKey={"website"}
+                  entryValue={breweryData.website_url}
+                  asLink
+                />
+              </TableBody>
+            </Table>
+          </TableContainer>
         </CardContent>
       </Card>
-    </>
+    </div>
   );
 };
 
