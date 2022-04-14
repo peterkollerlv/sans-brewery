@@ -1,19 +1,18 @@
 import React from "react";
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { Layout } from "../common/Layout";
+import { Layout } from "../components/Layout";
 import { Brewery } from "../schema/Brewery";
-import { BreweryOptionType } from "../common/BreweryOptionType";
+import { BreweryOptionType } from "../schema/BreweryOptionType";
+import "../styles/globals.css";
 
-function MyApp({ Component, pageProps }: AppProps) {
+const SansBreweryApp = ({ Component, pageProps }: AppProps) => {
   const breweryAutoCompleteData: BreweryOptionType[] = [];
 
   if (pageProps.breweries) {
     pageProps.breweries.map((brewery: Brewery) => {
       breweryAutoCompleteData.push({
-        breweryId: brewery.id,
-        breweryName: brewery.name,
-        breweryType: brewery.brewery_type,
+        id: brewery.id,
+        name: brewery.name,
       });
     });
   }
@@ -25,6 +24,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Layout>
     </React.StrictMode>
   );
-}
+};
 
-export default MyApp;
+export default SansBreweryApp;

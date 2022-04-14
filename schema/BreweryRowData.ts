@@ -1,5 +1,5 @@
 export type BreweryRowData = {
-  id: number;
+  id: string;
   name: string;
   brewery_type: string;
 };

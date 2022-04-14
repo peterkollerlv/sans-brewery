@@ -1,7 +1,7 @@
 import { BreweriesState } from "../../interface/state/BreweriesState";
 import { BreweriesStateAction } from "../../interface/state/BreweriesStateAction";
 import { BreweriesStateActionType } from "../../interface/state/BreweriesStateActionType";
-import { calculatePageSize } from "../calculatePageSize";
+import { calculatePageSize } from "../BreweryDAL";
 
 export const breweriesReducer = (
   state: BreweriesState,

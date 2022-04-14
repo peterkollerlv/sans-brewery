@@ -1,4 +1,5 @@
 import { Brewery } from "../schema/Brewery";
+import { BreweryRowData } from "../schema/BreweryRowData";
 
 export const fetchBreweries = async (): Promise<Brewery[]> => {
   const breweries: Promise<Brewery[]> = fetch(
@@ -26,4 +27,21 @@ export const fetchBrewery = async (id: string): Promise<Brewery> => {
 
   const breweryRes = await brewery;
   return breweryRes;
+};
+
+export const createBreweryDataRow = (brewery: Brewery): BreweryRowData => {
+  return {
+    id: brewery.id,
+    name: brewery.name,
+    brewery_type: brewery.brewery_type,
+  };
+};
+
+export const calculatePageSize = (itemCount: number, pageSize: number) => {
+  const itemCountPerPage = Math.round(itemCount / pageSize);
+  const fullPagesCount = Math.round(
+    itemCount % pageSize > 0 ? itemCountPerPage + 1 : itemCountPerPage
+  );
+
+  return fullPagesCount;
 };

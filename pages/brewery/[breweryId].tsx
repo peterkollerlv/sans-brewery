@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import ArrowBackIosOutlinedIcon from "@mui/icons-material/ArrowBackIosOutlined";
 import styles from "../../styles/Brewery.module.css";
-import { BreweryDetailRow } from "../../common/BreweryDetailRow";
+import { BreweryDetailRow } from "../../components/BreweryDetailRow";
 
 const Brewery = ({ ...props }) => {
   const breweryData: Brewery = props.brewery ?? {};

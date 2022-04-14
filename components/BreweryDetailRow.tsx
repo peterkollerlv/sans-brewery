@@ -1,5 +1,5 @@
-import { TableCell, TableRow, Typography } from "@mui/material";
 import React from "react";
+import { TableCell, TableRow, Typography } from "@mui/material";
 import { BreweryDetailRowProps } from "../interface/props/BreweryDetailRowProps";
 
 export const BreweryDetailRow: React.FC<BreweryDetailRowProps> = ({ ...props }) => {

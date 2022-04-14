@@ -1,6 +1,10 @@
 import React from "react";
 import { Brewery } from "../schema/Brewery";
-import { fetchBreweries } from "../common/BreweryDAL";
+import {
+  calculatePageSize,
+  createBreweryDataRow,
+  fetchBreweries,
+} from "../common/BreweryDAL";
 import { BreweriesStateActionType } from "../interface/state/BreweriesStateActionType";
 import { breweriesReducer } from "../common/reducers/breweriesReducer";
 import {
@@ -19,10 +23,8 @@ import {
   Slider,
   Link,
 } from "@mui/material";
-import { createBreweryDataRow } from "../common/createBreweryDataRow";
 import styles from "../styles/BreweriesPage.module.css";
-import { calculatePageSize } from "../common/calculatePageSize";
-import { APP_DEFAULT_ENTRIES_PER_PAGE_LIMIT } from "../common/AppDefaults";
+import { APP_DEFAULT_ENTRIES_PER_PAGE_LIMIT } from "../configuration/AppDefaults";
 
 const BreweriesPage = ({ ...props }) => {
   if (props.appDefaults) {
@@ -57,7 +59,10 @@ const BreweriesPage = ({ ...props }) => {
     initialisePageData();
   }, []);
 
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
     setCurrentPage(value);
   };
 
@@ -86,7 +91,7 @@ const BreweriesPage = ({ ...props }) => {
     });
   };
 
-  const valuetext = (value: number) => {
+  const getPaginationLabelText = (value: number) => {
     return `${value} / page`;
   };
 
@@ -158,11 +163,12 @@ const BreweriesPage = ({ ...props }) => {
           <div className={styles.pagination}>
             <Slider
               sx={{ width: 200, marginTop: "1.2em" }}
+              color="primary"
               defaultValue={breweryDataContext.entriesPerPage}
               aria-label="Entries Per Page"
               valueLabelDisplay="on"
               value={breweryDataContext.entriesPerPage}
-              valueLabelFormat={valuetext}
+              valueLabelFormat={getPaginationLabelText}
               min={1}
               max={breweryDataContext.breweries.length}
               onChange={handleEntriesPerPageChange}
@@ -171,7 +177,7 @@ const BreweriesPage = ({ ...props }) => {
             <Divider />
             <Pagination
               count={breweryDataContext.pages}
-              onChange={handleChange}
+              onChange={handlePageChange}
               color="primary"
               showFirstButton
               showLastButton
