@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   Typography,
-  Grid,
   Paper,
   Table,
   TableBody,
@@ -14,40 +13,50 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Box,
+  Link,
 } from "@mui/material";
 import ArrowBackIosOutlinedIcon from "@mui/icons-material/ArrowBackIosOutlined";
-import styles from "../../styles/Brewery.module.css";
 import { BreweryDetailRow } from "../../components/BreweryDetailRow";
 
 const Brewery = ({ ...props }) => {
   const breweryData: Brewery = props.brewery ?? {};
   return (
-    <div className={styles.container}>
-      <Card className={styles.detailCard}>
-        <div className={styles.backButton}>
-          <a href="/breweries">
+    <Box
+      sx={{
+        width: "40vw",
+        display: "flex",
+        justifyContent: "center",
+        marginLeft: "auto",
+        marginRight: "auto",
+      }}
+    >
+      <Card sx={{ borderRadius: "20px" }}>
+        <Box sx={{ padding: "0.5em" }}>
+          <Link href="/breweries">
             <ArrowBackIosOutlinedIcon />
-          </a>
-        </div>
+          </Link>
+        </Box>
         <CardContent>
-          <Typography
-            sx={{ fontSize: "1.5rem", color: "var(--primary-color)" }}
-            gutterBottom
-          >
+          <Typography sx={{ fontSize: "1.5rem" }} gutterBottom color="primary">
             {breweryData.name}
           </Typography>
 
-          <TableContainer component={Paper} className={styles.detailsTable}>
+          <TableContainer
+            component={Paper}
+            elevation={0}
+            sx={{ borderRadius: "20px" }}
+          >
             <Table>
               <TableHead>
-                <TableRow>
-                  <TableCell colSpan={2}>
+                <TableRow sx={{ border: 0 }}>
+                  <TableCell colSpan={2} sx={{ border: 0 }}>
                     <Typography
                       sx={{
                         mb: 1.5,
                         fontSize: "1rem",
-                        color: "var(--primary-color)",
                       }}
+                      color="primary"
                     >
                       {`${breweryData.country}, ${
                         breweryData.county_province
@@ -58,7 +67,7 @@ const Brewery = ({ ...props }) => {
                   </TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
+              <TableBody sx={{ "& tr td": { padding: "1em" } }}>
                 <BreweryDetailRow
                   entryKey={"city"}
                   entryValue={breweryData.city}
@@ -99,7 +108,7 @@ const Brewery = ({ ...props }) => {
           </TableContainer>
         </CardContent>
       </Card>
-    </div>
+    </Box>
   );
 };
 

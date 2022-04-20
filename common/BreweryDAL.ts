@@ -38,10 +38,5 @@ export const createBreweryDataRow = (brewery: Brewery): BreweryRowData => {
 };
 
 export const calculatePageSize = (itemCount: number, pageSize: number) => {
-  const itemCountPerPage = Math.round(itemCount / pageSize);
-  const fullPagesCount = Math.round(
-    itemCount % pageSize > 0 ? itemCountPerPage + 1 : itemCountPerPage
-  );
-
-  return fullPagesCount;
+  return Math.ceil(itemCount / pageSize);
 };

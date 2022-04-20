@@ -41,7 +41,7 @@ const Home: NextPage<HomePageProps> = ({ ...props }) => {
 export default Home;
 
 export async function getServerSideProps() {
-  const messageOfTheDay = "it is a nice day today";
+  const messageOfTheDay = "a vatta cukor az jó";
   return {
     props: { messageOfTheDay: messageOfTheDay },
   };

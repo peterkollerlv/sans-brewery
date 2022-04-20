@@ -22,13 +22,14 @@ import {
   Divider,
   Slider,
   Link,
+  Box,
+  useTheme,
 } from "@mui/material";
-import styles from "../styles/BreweriesPage.module.css";
 import { APP_DEFAULT_ENTRIES_PER_PAGE_LIMIT } from "../configuration/AppDefaults";
 
 const BreweriesPage = ({ ...props }) => {
-  if (props.appDefaults) {
-  }
+  const theme = useTheme();
+
   const [breweryDataContext, dispatch] = React.useReducer(breweriesReducer, {
     breweries: [],
     pages: 0,
@@ -79,6 +80,7 @@ const BreweriesPage = ({ ...props }) => {
         entriesPerPage: value as number,
       },
     });
+    setCurrentPage(breweryDataContext.breweries.length > 0 ? 1 : 0);
   };
 
   const setCurrentPage = (page: number) => {
@@ -96,33 +98,39 @@ const BreweriesPage = ({ ...props }) => {
   };
 
   return (
-    <Container className={styles.container}>
+    <Container>
       <Stack direction="column" spacing="4">
-        <Typography
-          sx={{ color: "var(--primary-color)" }}
-          variant="h4"
-          className={styles.title}
-        >
+        <Typography color="primary" variant="h4">
           Sans Brewery Catalog
         </Typography>
-        <Paper elevation={6}>
-          <TableContainer className={styles.tableContainer}>
-            <Table
-              stickyHeader
-              aria-label="brewery info table"
-              className={styles.breweriesTable}
-            >
+        <Paper elevation={6} sx={{ borderRadius: "20px" }}>
+          <TableContainer sx={{ borderRadius: "20px", height: "60vh" }}>
+            <Table stickyHeader aria-label="brewery info table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="left" component="th" scope="row">
-                    <Typography variant="h6">Brewery Name</Typography>
+                  <TableCell
+                    align="left"
+                    component="th"
+                    scope="row"
+                    sx={{ border: 0 }}
+                  >
+                    <Typography color="primary" variant="h6">
+                      Brewery Name
+                    </Typography>
                   </TableCell>
-                  <TableCell align="left" component="th" scope="row">
-                    <Typography variant="h6">Brewery Type</Typography>
+                  <TableCell
+                    align="left"
+                    component="th"
+                    scope="row"
+                    sx={{ border: 0 }}
+                  >
+                    <Typography color="primary" variant="h6">
+                      Brewery Type
+                    </Typography>
                   </TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
+              <TableBody sx={{ "& tr td": { padding: "1em" } }}>
                 {breweryDataContext.breweries
                   .slice(
                     (breweryDataContext.currentPage - 1) *
@@ -134,22 +142,20 @@ const BreweriesPage = ({ ...props }) => {
                     const rowData = createBreweryDataRow(brewery);
 
                     return (
-                      <TableRow
-                        key={rowData.id}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell align="left">
-                          <Link href={`/brewery/${rowData.id}`}>
-                            <Typography variant="body2">
+                      <TableRow key={rowData.id}>
+                        <TableCell align="left" sx={{ border: 0 }}>
+                          <Link
+                            href={`/brewery/${rowData.id}`}
+                            sx={{ textDecoration: "none", cursor: "pointer" }}
+                          >
+                            <Typography color="primary" variant="body2">
                               {rowData.name}
                             </Typography>
                           </Link>
                         </TableCell>
 
-                        <TableCell align="left">
-                          <Typography variant="body2">
+                        <TableCell align="left" sx={{ border: 0 }}>
+                          <Typography color="primary" variant="body2">
                             {rowData.brewery_type}
                           </Typography>
                         </TableCell>
@@ -160,9 +166,23 @@ const BreweriesPage = ({ ...props }) => {
             </Table>
           </TableContainer>
           <Divider />
-          <div className={styles.pagination}>
+          <Box
+            sx={{
+              padding: "1em",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <Slider
-              sx={{ width: 200, marginTop: "1.2em" }}
+              sx={{
+                width: 200,
+                marginTop: "1.2em",
+                "& > span > span": {
+                  color: theme.palette.primary.main,
+                  backgroundColor: theme.palette.background.default,
+                },
+              }}
               color="primary"
               defaultValue={breweryDataContext.entriesPerPage}
               aria-label="Entries Per Page"
@@ -172,10 +192,17 @@ const BreweriesPage = ({ ...props }) => {
               min={1}
               max={breweryDataContext.breweries.length}
               onChange={handleEntriesPerPageChange}
-              className={styles.slider}
             />
             <Divider />
             <Pagination
+              sx={{
+                "& ul li button": {
+                  color: theme.palette.primary.main,
+                  "&.Mui-selected": {
+                    color: theme.palette.secondary.main,
+                  },
+                },
+              }}
               count={breweryDataContext.pages}
               onChange={handlePageChange}
               color="primary"
@@ -184,7 +211,7 @@ const BreweriesPage = ({ ...props }) => {
               page={breweryDataContext.currentPage}
               disabled={breweryDataContext.breweries.length < 1}
             />
-          </div>
+          </Box>
         </Paper>
       </Stack>
     </Container>

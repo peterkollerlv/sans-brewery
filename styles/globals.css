@@ -1,9 +1,3 @@
-:root {
-  --primary-color: #006dc9;
-  --primary-background-color: #f8f88e;
-  --secondary-background-color: #f6f5cc;
-}
-
 html,
 body {
   padding: 0;
@@ -20,4 +14,3 @@ a {
 * {
   box-sizing: border-box;
 }
-

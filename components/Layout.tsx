@@ -4,20 +4,21 @@ import { useRouter } from "next/router";
 import {
   AppBar,
   Autocomplete,
-  Container,
+  Box,
+  createFilterOptions,
   createTheme,
   IconButton,
+  Popper,
   TextField,
-  Theme,
   ThemeProvider,
   Toolbar,
   Typography,
 } from "@mui/material";
 import SportsBarOutlinedIcon from "@mui/icons-material/SportsBarOutlined";
-import styles from "../styles/Layout.module.css";
 import { BreweryOptionType } from "../schema/BreweryOptionType";
-import { green } from "@mui/material/colors";
+import { orange, yellow } from "@mui/material/colors";
 import { SansTheme } from "../interface/SansTheme";
+import { APP_AUTOCOMPLETE_OPTIONS_LIMIT } from "../configuration/AppDefaults";
 
 export const Layout = ({ ...props }) => {
   const router = useRouter();
@@ -37,18 +38,25 @@ export const Layout = ({ ...props }) => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: green[400],
+        main: orange[600],
+      },
+      secondary: {
+        main: yellow[300],
       },
       background: {
-        default: "#f8f88e",
-        paper: "#f6f5cc",
+        default: yellow[200],
+        paper: yellow[200],
       },
     },
   });
 
+  const filterOptions = createFilterOptions<BreweryOptionType>({
+    limit: APP_AUTOCOMPLETE_OPTIONS_LIMIT,
+  });
+
   return (
     <ThemeProvider<SansTheme> theme={theme}>
-      <Container className={styles.container}>
+      <Box sx={{ margin: 0, padding: 0, width: "100vw", minHeight: "100vh" }}>
         <Head>
           <title>Sans Brewery Sans Brewery Explorer</title>
           <meta name="description" content="powered by electricity" />
@@ -57,10 +65,9 @@ export const Layout = ({ ...props }) => {
         <AppBar
           position="static"
           sx={{
-            color: "var(--primary-color)",
-            backgroundColor: "var(--primary-background-color)",
             height: "4em",
           }}
+          color="secondary"
         >
           <Toolbar>
             <IconButton
@@ -70,13 +77,17 @@ export const Layout = ({ ...props }) => {
               aria-label="open drawer"
             >
               <a href="/">
-                <SportsBarOutlinedIcon sx={{ fontSize: "2em" }} />
+                <SportsBarOutlinedIcon
+                  sx={{ fontSize: "2em" }}
+                  color="primary"
+                />
               </a>
             </IconButton>
             <Typography
               variant="h6"
               noWrap
               component="div"
+              color="primary"
               sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
             >
               Sans Brewery Explorer
@@ -84,14 +95,21 @@ export const Layout = ({ ...props }) => {
 
             {breweryAutoCompleteData.length > 0 ? (
               <Autocomplete
-                id="auto-complete"
+                color="primary"
                 sx={{
                   width: "30vw",
-                  "& input": { color: "var(--primary-color)" },
-                  "& select": { color: "var(--secondary-color)" },
+                  "& > div > div::before": {
+                    borderBottom: `2px solid ${theme.palette.primary.main}`,
+                  },
+                  "& > div > div:hover:not(.Mui-disabled)::before": {
+                    borderBottom: `2px solid ${theme.palette.primary.main}`,
+                  },
+                  "& > div > div:hover:not(.Mui-disabled)::after": {
+                    borderBottom: `2px solid ${theme.palette.primary.main}`,
+                  },
                 }}
-                className={styles.autoComplete}
                 options={breweryAutoCompleteData}
+                filterOptions={filterOptions}
                 getOptionLabel={(option: BreweryOptionType) => option.name}
                 autoComplete
                 includeInputInList
@@ -100,25 +118,68 @@ export const Layout = ({ ...props }) => {
                     router.push(`/brewery/${value.id}`);
                   }
                 }}
-                renderInput={(params) => (
-                  <div ref={params.InputProps.ref}>
-                    <TextField
-                      type="text"
-                      {...params}
-                      label="breweries"
-                      variant="standard"
+                PopperComponent={(props) => {
+                  return (
+                    <Popper
+                      {...props}
+                      sx={{
+                        "& ul > li": {
+                          color: theme.palette.primary.main,
+                        },
+                      }}
+                      placement="bottom-start"
                     />
-                  </div>
+                  );
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    type="text"
+                    label="Search Breweries"
+                    variant="standard"
+                    InputLabelProps={{
+                      style: {
+                        color: theme.palette.primary.main,
+                        opacity: 0.5,
+                      },
+                    }}
+                    sx={{
+                      " & input": { color: theme.palette.primary.main },
+                      "& svg": { color: theme.palette.primary.main },
+                    }}
+                  />
                 )}
               />
             ) : null}
           </Toolbar>
         </AppBar>
 
-        <main className={styles.main}>{props.children}</main>
+        <main>
+          <Box
+            sx={{
+              padding: "2em",
+              backgroundColor: theme.palette.background.default,
+              minHeight: "calc(100vh - 6em)",
+            }}
+          >
+            {props.children}
+          </Box>
+        </main>
 
-        <footer className={styles.footer}>sans brewery catalog 2022</footer>
-      </Container>
+        <footer>
+          <Box
+            sx={{
+              backgroundColor: theme.palette.background.default,
+              height: "2em",
+              minWidth: "100%",
+              padding: "0 2em",
+              textAlign: "right",
+            }}
+          >
+            <Typography color="primary">sans brewery catalog 2022</Typography>
+          </Box>
+        </footer>
+      </Box>
     </ThemeProvider>
   );
 };
